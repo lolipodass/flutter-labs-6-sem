@@ -20,13 +20,15 @@ class MainPage extends StatelessWidget {
 
 class ProductListPage extends StatelessWidget {
   const ProductListPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 4, // Updated the number of tabs to 4
       child: Scaffold(
-        backgroundColor: const Color.fromARGB(100, 33, 45, 57),
+        backgroundColor: Color(0xFF08304e),
         appBar: AppBar(
+          backgroundColor: Color(0xFF08304e),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -77,6 +79,7 @@ class ProductListPage extends StatelessWidget {
               Tab(text: 'Popular'),
               Tab(text: 'Trending'),
               Tab(text: 'All'),
+              Tab(text: 'Featured'), // Added new tab
             ],
           ),
         ),
@@ -85,46 +88,78 @@ class ProductListPage extends StatelessWidget {
             _buildGrid('Popular'),
             _buildGrid('Trending'),
             _buildGrid('All'),
+            _buildPageView(), // Added a PageView widget here
           ],
         ),
-        //fav button to sort elements
-        floatingActionButton: FloatingActionButton(
-          //add circle shape
-          shape: const CircleBorder(),
-          backgroundColor: Colors.lightGreen,
-          onPressed: () {},
-          child: const Icon(Icons.sort),
+        floatingActionButton: SizedBox(
+          height: 60,
+          child: FittedBox(
+            child: FloatingActionButton(
+              shape: const CircleBorder(),
+              backgroundColor: Colors.lightGreen,
+              foregroundColor: Colors.white,
+              onPressed: () {},
+              child: const Icon(Icons.sort, size: 28),
+            ),
+          ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Color(0xFF08304e),
           showSelectedLabels: false,
           showUnselectedLabels: false,
           elevation: 20,
           items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(icon: Icon(Icons.grid_view), label: "grid"),
+            BottomNavigationBarItem(icon: Icon(Icons.grid_view), label: "Grid"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.view_agenda), label: "rows"),
+                icon: Icon(Icons.view_agenda), label: "Rows"),
           ],
         ),
       ),
     );
   }
 
+  Widget _buildPageView() {
+    // Sample images to demonstrate the use of PageView
+    var images = [
+      'assets/images/1board.png',
+      'assets/images/3board.png',
+      'assets/images/4board.png',
+    ];
+    return PageView.builder(
+      itemCount: images.length,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 50.0),
+          child: Image.asset(images[index], fit: BoxFit.contain),
+        );
+      },
+    );
+  }
+
   Widget _buildGrid(String title) {
+    List<Map<String, Object>> products = [
+      {'name': 'Samurai', 'price': 119, 'image': 'assets/images/1board.png'},
+      {'name': 'Ollie', 'price': 99, 'image': 'assets/images/3board.png'},
+      {'name': 'Skateboard', 'price': 299, 'image': 'assets/images/4board.png'},
+    ];
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: GridView.builder(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2, childAspectRatio: 1 / 1.7),
+          itemCount: products.length,
           itemBuilder: (context, index) {
-            var product = {'name': 'Samurai', 'price': 119};
+            var product = products[index];
             return GestureDetector(
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const ProductPage()),
+                        builder: (context) => ProductPage(
+                              product: product,
+                            )),
                   );
                 },
                 child: BoardCard(product: product));
@@ -146,35 +181,38 @@ class BoardCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 5,
+      color: Colors.transparent,
+      elevation: 2,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10))),
-      child: Stack(children: [
-        Column(children: <Widget>[
-          SizedBox(height: 300, child: Image.asset("assets/images/1board.png")),
-        ]),
-        Positioned(
-          left: 52,
-          bottom: 20,
-          child: Column(
-            children: [
-              Text(
-                '${product['name']}',
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          borderRadius: BorderRadius.all(Radius.circular(20))),
+      child: Stack(alignment: Alignment.center, children: [
+        Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              SizedBox(
+                height: 220,
+                child: Image.asset(product['image'] as String),
               ),
-              Text(
-                '\$${product['price']}',
-                style: const TextStyle(fontSize: 14),
+              Column(
+                children: [
+                  Text(
+                    '${product['name']}',
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    '\$${product['price']}',
+                    style: const TextStyle(fontSize: 14),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
+            ]),
         Positioned(
-            right: 20,
-            top: 20,
+            right: 10,
+            top: 10,
             child: IconButton(
-              icon: const Icon(Icons.favorite_border),
+              icon: const Icon(Icons.favorite_border_rounded),
               onPressed: () {
                 // Handle the like action
               },

@@ -2,7 +2,9 @@
 import 'package:flutter/material.dart';
 
 class ProductPage extends StatelessWidget {
-  const ProductPage({super.key});
+  final Map<String, Object> product;
+  const ProductPage({super.key, required this.product});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +20,7 @@ class ProductPage extends StatelessWidget {
         //add image here
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.only(left: 4),
+            padding: const EdgeInsets.only(left: 8),
             child: Column(
               children: <Widget>[
                 Row(
@@ -26,10 +28,10 @@ class ProductPage extends StatelessWidget {
                   children: [
                     IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back)),
                     Image.asset(
-                      "assets/images/1board.png",
+                      product['image'] as String,
                       width: 300,
-                      height: 600,
-                      scale: 1.5,
+                      height: 500,
+                      fit: BoxFit.fitHeight,
                       // repeat: ImageRepeat.repeat,
                     ),
                     IconButton(
@@ -46,11 +48,11 @@ class ProductPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Product name",
+                            '${product['name']}',
                             style: const TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
-                          Text("\$200.00",
+                          Text('\$${product['price']}',
                               style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
