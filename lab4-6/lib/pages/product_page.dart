@@ -1,8 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lab4/bloc/product_bloc.dart';
+import 'package:lab4/models/product.dart';
 
 class ProductPage extends StatelessWidget {
-  final Map<String, Object> product;
+  final Product product;
   const ProductPage({super.key, required this.product});
 
   @override
@@ -17,7 +20,6 @@ class ProductPage extends StatelessWidget {
           ),
           actions: [IconButton(onPressed: () {}, icon: Icon(Icons.more_horiz))],
         ),
-        //add image here
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.only(left: 8),
@@ -28,7 +30,7 @@ class ProductPage extends StatelessWidget {
                   children: [
                     IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back)),
                     Image.asset(
-                      product['image'] as String,
+                      product.image,
                       width: 300,
                       height: 500,
                       fit: BoxFit.fitHeight,
@@ -48,11 +50,11 @@ class ProductPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${product['name']}',
+                            product.name,
                             style: const TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
-                          Text('\$${product['price']}',
+                          Text(product.price.toString(),
                               style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
@@ -60,7 +62,11 @@ class ProductPage extends StatelessWidget {
                         ],
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          context
+                              .read<ProductBloc>()
+                              .add(AddToCart(product: product));
+                        },
                         padding: EdgeInsets.zero,
                         icon: Icon(
                           Icons.favorite,
