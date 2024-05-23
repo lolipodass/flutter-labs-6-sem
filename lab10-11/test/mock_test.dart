@@ -18,8 +18,8 @@ void main() {
     });
 
     test('fromJson() should create a Game object from JSON data', () {
-      expect(game.name, 'GTA 5');
-      expect(game.platform, 'Shooter');
+      expect(game.name, 'Dark');
+      expect(game.platform, 'Fantasy');
     });
 
     test('copyWith() should create a new Game object with updated values', () {
@@ -33,8 +33,8 @@ void main() {
     test('toJson() should convert Game object to JSON data', () {
       final json = game.toJson();
 
-      expect(json['name'], 'GTA 5');
-      expect(json['platform'], 'Shooter');
+      expect(json['name'], 'Dark');
+      expect(json['platform'], 'Fantasy');
     });
   });
 }

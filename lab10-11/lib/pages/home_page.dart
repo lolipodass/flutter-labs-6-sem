@@ -176,7 +176,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   TextFormField(
                     key: ValueKey('addField'),
                     controller: nameController,
-                    decoration: const InputDecoration(labelText: 'Имя'),
+                    decoration: const InputDecoration(labelText: 'Name'),
                   ),
                   const SizedBox(
                     height: 20,

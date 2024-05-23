@@ -23,7 +23,7 @@ class _MyHomePageState extends State<MyHomePage> {
             height: 20,
           ),
           Text(
-            "Add Todo Here:",
+            "Test Game",
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -66,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
             height: 20,
           ),
           Text(
-            "Your Todos",
+            "Name",
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -86,15 +86,14 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-
 class TodoModel {
   String content;
   bool done;
 
   TodoModel(
-      this.content,
-      this.done,
-      );
+    this.content,
+    this.done,
+  );
 }
 
 class ListController {
@@ -136,7 +135,7 @@ class TodoCard extends StatefulWidget {
   final int index;
   final ListController listController;
 
-  const TodoCard({ required this.index, required this.listController});
+  const TodoCard({required this.index, required this.listController});
 
   @override
   _TodoCardState createState() => _TodoCardState();
@@ -178,7 +177,8 @@ class _TodoCardState extends State<TodoCard> {
                 key: Key("checkbox" + widget.index.toString()),
                 value: widget.listController.todoList[widget.index].done,
                 onChanged: (newValue) {
-                  widget.listController.checkboxSelected(newValue!, widget.index);
+                  widget.listController
+                      .checkboxSelected(newValue!, widget.index);
                   setState(() {});
                 },
               ),
